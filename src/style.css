@@ -1,0 +1,14 @@
+/* Getting font information */
+@font-face {
+    font-family: 'Poppins';
+    src: url('./Poppins-Regular.ttf') format('ttf');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
