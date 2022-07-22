@@ -1,15 +1,20 @@
-const ship = (length) => {
+// Ship factory function
+const ship = (length, id) => {
+    // Makes an array equal to the ships length
     const shipLayout = [...Array(length)];
+    const shipID = id;
 
-
+    // Return ship length
     const getLength = () => {
         return length;
     }
 
+    // Hits a ship
     const hit = (num) => {
         shipLayout[num-1] = 'X'
     }
 
+    // Checks if the ship has sunk
     const isSunk = () => {
         if(shipLayout.every(e => e === 'X')) {
             return true;
@@ -19,6 +24,7 @@ const ship = (length) => {
         }
     }
 
+    // Returns the following
     return{shipLayout, getLength, hit, isSunk}
 }
 
