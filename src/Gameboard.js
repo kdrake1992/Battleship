@@ -15,6 +15,14 @@ const Gameboard = () => {
 
     // Assigns board
     let board = createBoard();
+
+    // Contains ships in game
+    let ships = [];
+
+    // Adds ship into ship array
+    const addShip = (ship) => {
+        ships.push(ship);
+    }
     
 
     // Places ship
@@ -22,7 +30,7 @@ const Gameboard = () => {
         if(placement === 'horizontal') {
             if(x + ship.getLength() <= 10) {
                 for(let i = x; i < x + ship.getLength(); i++) {
-                    board[y][i] = '!';
+                    board[y][i] = ship.getID();
                 }
                 return true;
             }
@@ -34,7 +42,7 @@ const Gameboard = () => {
         else if (placement  === 'vertical') {
             if(y + ship.getLength() <= 10) {
                 for(let i = y; i < y + ship.getLength(); i++) {
-                    board[i][x] = '!';
+                    board[i][x] = ship.getID();
                 }
                 return true
             }
@@ -46,7 +54,21 @@ const Gameboard = () => {
 
     // Determines whether or ont the attack hit a ship
     // and sends a hit function to the correct ship
-    const receiveAttack = () => {
+    const receiveAttack = (x,y) => {
+        if(board[y][x] !== '' && board[y][x] !== 'x') {
+            for(let i = 0; i < ships.length; i++) {
+                if(ships[i].getID() === board[y][x]) {
+                    board[y][x] = 'x'
+                    return 'hit';
+                }
+            }
+        }
+        else if(board[y][x] === 'x') {
+            return 'doubleHit'
+        }
+        else {
+            return 'miss'
+        }
 
     }
     // Checks if all ships have been suck
@@ -55,7 +77,7 @@ const Gameboard = () => {
     }
 
 
-    return {board, placeShip}
+    return {board, addShip, placeShip, receiveAttack}
 }
 
 module.exports = Gameboard;

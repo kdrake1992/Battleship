@@ -51,3 +51,31 @@ test('Returns false if ship cannot be placed vertically.', () => {
     let newShip = ship(5,'n');
     expect(newGame.placeShip(newShip,0,6,'vertical')).toBe(false);
 })
+
+test('Returns a hit on a ship.', () => {
+    let newGame = gameBoard();
+    let newShip = ship(5,'n');
+    newGame.addShip(newShip);;
+    newGame.placeShip(newShip,0,2,'vertical');
+
+    expect(newGame.receiveAttack(0,2)).toBe('hit')
+})
+
+test('Returns a doubleHit on a ship.', () => {
+    let newGame = gameBoard();
+    let newShip = ship(5,'n');
+    newGame.addShip(newShip);
+    newGame.placeShip(newShip,0,2,'vertical');
+    newGame.receiveAttack(0,2);
+
+    expect(newGame.receiveAttack(0,2)).toBe('doubleHit')
+})
+
+test('Returns a miss.', () => {
+    let newGame = gameBoard();
+    let newShip = ship(5,'n');
+    newGame.addShip(newShip);
+    newGame.placeShip(newShip,0,3,'vertical');
+
+    expect(newGame.receiveAttack(0,2)).toBe('miss')
+})

@@ -9,6 +9,11 @@ const ship = (length, id) => {
         return length;
     }
 
+    // Return shipID
+    const getID = () => {
+        return id;
+    }
+
     // Hits a ship
     const hit = (num) => {
         shipLayout[num-1] = 'X'
@@ -25,7 +30,7 @@ const ship = (length, id) => {
     }
 
     // Returns the following
-    return{shipLayout, getLength, hit, isSunk}
+    return{shipLayout, getLength, getID, hit, isSunk}
 }
 
 module.exports = ship;
