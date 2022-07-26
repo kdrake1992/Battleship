@@ -29,9 +29,13 @@ const Gameboard = () => {
     const placeShip = (ship, x, y, placement) => {
         if(placement === 'horizontal') {
             if(x + ship.getLength() <= 10) {
+                if(!checkBoard(ship,x,y,placement)) {
+                    return false;
+                }
                 for(let i = x; i < x + ship.getLength(); i++) {
                     board[y][i] = ship.getID();
                 }
+                ship.setPlacement(placement);
                 return true;
             }
             else {
@@ -41,14 +45,39 @@ const Gameboard = () => {
         }
         else if (placement  === 'vertical') {
             if(y + ship.getLength() <= 10) {
+                if(!checkBoard(ship,x,y,placement)) {
+                    return false;
+                }
                 for(let i = y; i < y + ship.getLength(); i++) {
                     board[i][x] = ship.getID();
                 }
+                ship.setPlacement(placement);
                 return true
             }
             else {
                 return false;
             }
+        }
+    }
+
+    // Checks board if there is a ship already placed 
+    const checkBoard = (ship,x,y,placement) => {
+        let check = true;
+        if(placement === 'horizontal') {
+            for(let i = x; i < x + ship.getLength(); i++) {
+                if(board[y][i] !== '') {
+                        check = false;
+                }
+            }
+            return check;
+        }
+        else if(placement === 'vertical') {
+            for(let i = y; i < y + ship.getLength(); i++) {
+                if(board[i][x] !== '') {
+                    check = false;
+                }
+            }
+            return check;
         }
     }
 
@@ -58,6 +87,13 @@ const Gameboard = () => {
         if(board[y][x] !== '' && board[y][x] !== 'x') {
             for(let i = 0; i < ships.length; i++) {
                 if(ships[i].getID() === board[y][x]) {
+                    for(let j = 0; j < ships[i].shipLayout.length; j++) {
+                        if(ships[i].shipLayout[j] === undefined) {
+                            ships[i].hit(j+1)
+                            break;
+                        }
+                    }
+
                     board[y][x] = 'x'
                     return 'hit';
                 }
@@ -73,11 +109,17 @@ const Gameboard = () => {
     }
     // Checks if all ships have been suck
     const gameOver = () => {
+        for(let i = 0; i < ships.length; i++) {
+            if(ships[i].isSunk() === false) {
+                return false;
+            }
+        }
 
+        return true;
     }
 
 
-    return {board, addShip, placeShip, receiveAttack}
+    return {board, addShip, placeShip, receiveAttack, gameOver}
 }
 
 module.exports = Gameboard;

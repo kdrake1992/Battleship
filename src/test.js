@@ -9,7 +9,7 @@ test('Create a ship and get the length.', () => {
 test('Hit the ship and check array', () => {
     let newShip = ship(2,'n');
     newShip.hit(2);
-    expect(newShip.shipLayout).toEqual([undefined,'X',undefined])
+    expect(newShip.shipLayout).toEqual([undefined,'x',undefined])
 })
 
 test('Sink ship and return true', () => {
@@ -78,4 +78,25 @@ test('Returns a miss.', () => {
     newGame.placeShip(newShip,0,3,'vertical');
 
     expect(newGame.receiveAttack(0,2)).toBe('miss')
+})
+
+test('Not a game over.', () => {
+    let newGame = gameBoard();
+    let newShip = ship(2,'n');
+    newGame.addShip(newShip);
+    newGame.placeShip(newShip,0,3,'vertical');
+    newGame.receiveAttack(0,3);
+
+    expect(newGame.gameOver()).toBe(false)
+})
+
+test('Gameover', () => {
+    let newGame = gameBoard();
+    let newShip = ship(2,'n');
+    newGame.addShip(newShip);
+    newGame.placeShip(newShip,0,3,'vertical');
+    newGame.receiveAttack(0,3);
+    newGame.receiveAttack(0,4);
+    
+    expect(newGame.gameOver()).toBe(true)
 })
