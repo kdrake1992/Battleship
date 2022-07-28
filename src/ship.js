@@ -1,10 +1,16 @@
 // Ship factory function
-const ship = (length, id) => {
+const ship = (length, name) => {
     // Makes an array equal to the ships length
     const shipLayout = [...Array(length)];
-    const shipID = id;
+    const id = name.charAt(0);
     let placement = ''
+    let sunkStat = false;
 
+    // Return ship length
+    const getName = () => {
+        return name;
+    }   
+    
     // Return ship length
     const getLength = () => {
         return length;
@@ -20,9 +26,20 @@ const ship = (length, id) => {
         return placement;
     }
 
+    // Get sunk status
+    const getSunkStatus = () => {
+        return sunkStat;
+    }
+
     // Set placement
     const setPlacement = (place) => {
         placement = place;
+    }
+
+    // Set sink status
+    const setSunkStatus = () => {
+        sunkStat = true;
+        console.log(name + ' has sunk!')
     }
 
     // Hits a ship
@@ -41,7 +58,7 @@ const ship = (length, id) => {
     }
 
     // Returns the following
-    return{shipLayout, getLength, getID, getPlacement, setPlacement, hit, isSunk}
+    return{shipLayout, getName, getLength, getID, getPlacement, getSunkStatus, setPlacement, setSunkStatus,hit, isSunk}
 }
 
 module.exports = ship;

@@ -3,44 +3,69 @@ import Player from './Player'
 
 
 let player1 = Player('Player1', 'human')
+let player2 = Player('Player2', 'ai');
+player1.setTurn();
+
+let player1Ships = player1.board.ships;
+let player2Ships = player2.board.ships;
+
+player1.board.placeShip(player1Ships[0], 0,0, 'horizontal')
+player2.board.placeShip(player2Ships[0], 0,0, 'horizontal')
+
+player1.attack(0,0,player2.board);
+
+let counter = 0;
+while(!player1.board.gameOver()) {
+    counter++;
+    player2.attack(0,0,player1.board)
+    player1Ships.forEach(e => {
+        if(e.isSunk() === true) {
+            if(e.getSunkStatus() === false) {
+                e.setSunkStatus()
+            }
+        }
+    });
+    console.log(counter);
+
+}
+
+// player1.attack(1,0,player2.board);
+// player1.attack(2,0,player2.board);
+// player1.attack(3,0,player2.board);
+// player1.attack(4,0,player2.board);
+// player2Ships.forEach(e => {
+//     if(e.isSunk() === true) {
+//         if(e.getSunkStatus() === false) {
+//             e.setSunkStatus()
+//         }
+//     }
+// })
+
+// if(player2.board.gameOver()) {
+//     console.log('Game over')
+// }
+
+// if(player1.attack(0,1,player2.board) === 'hit' || 'miss') {
+//     console.log('bang!')
+//     player1.setTurn();
+//     player2.setTurn();
+// }
+// else {
+//     console.log('try again')
+// }
+
+// for(let i = 0; i < 100; i++) {
+//     if(player2.attack(0,0,player1.board) === 'hit' || 'miss') {
+//         console.log('bang!')
+//         player1.setTurn();
+//         player2.setTurn();
+//     }
+//     else {
+//         console.log('try again')
+//     }
+//     console.log(player1.board.board)
+// }
 
 
-// let newShip = ship(5,'n');
-// let newShip2 = ship(4,'t');
-
-// let newGame = Gameboard();
-
-// newGame.addShip(newShip);
-// newGame.addShip(newShip2)
-
-// newGame.placeShip(newShip, 5, 0, 'horizontal')
-
-// newGame.placeShip(newShip2, 0, 6, 'vertical');
-
-
-// console.log(newShip2.shipLayout);
-
-
-// console.log(newShip.getPlacement());
-// console.log(newShip2.getPlacement());
-
-// // Attack
-// console.log(newGame.receiveAttack(0,6));
-// console.log(newGame.receiveAttack(0,6));
-// console.log(newGame.receiveAttack(0,5));
-
-// console.log(newGame.receiveAttack(0,8));
-// console.log(newGame.receiveAttack(0,7));
-// console.log(newGame.receiveAttack(0,9));
-
-// console.log(newGame.gameOver());
-
-// console.log(newGame.receiveAttack(5,0));
-// console.log(newGame.receiveAttack(6,0));
-// console.log(newGame.receiveAttack(7,0));
-// console.log(newGame.receiveAttack(8,0));
-// console.log(newGame.receiveAttack(9,0));
-
-// console.log(newGame.gameOver());
-
-// console.log(newGame.board)
+console.log(player1.board.board)
+console.log(player2.board.board)

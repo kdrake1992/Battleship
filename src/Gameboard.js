@@ -84,7 +84,7 @@ const Gameboard = () => {
     // Determines whether or ont the attack hit a ship
     // and sends a hit function to the correct ship
     const receiveAttack = (x,y) => {
-        if(board[y][x] !== '' && board[y][x] !== 'x') {
+        if(board[y][x] !== '' && board[y][x] !== 'x' && board[y][x] !== 'o') {
             for(let i = 0; i < ships.length; i++) {
                 if(ships[i].getID() === board[y][x]) {
                     for(let j = 0; j < ships[i].shipLayout.length; j++) {
@@ -103,6 +103,7 @@ const Gameboard = () => {
             return 'doubleHit'
         }
         else {
+            board[y][x] = 'o'
             return 'miss'
         }
 
@@ -114,12 +115,12 @@ const Gameboard = () => {
                 return false;
             }
         }
-
+        console.log('Game Over')
         return true;
     }
 
 
-    return {board, addShip, placeShip, receiveAttack, gameOver}
+    return {board, ships, addShip, placeShip, receiveAttack, gameOver}
 }
 
 module.exports = Gameboard;
