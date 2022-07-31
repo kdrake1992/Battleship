@@ -58,32 +58,73 @@ const Player = (name, type) => {
             let x =  randomNumber();
 
             if(previousHit) {
-                if(counter >= 4) {
-                    if(counter === 0) {
-                        enemy.receiveAttack(y + 1,x);
+                y = previousY;
+                x = previousX;
 
+                console.log('help')
+                if(counter <= 3) {
+                    if(counter === 0) {
+                        if(enemy.receiveAttack(y + 1, x) === 'hit') {
+                            console.log('ANOTHER BIG HIT (1)')
+                            previousY = y + 1;
+                            previousX = x;
+                        }
+                        else {
+                            counter++;
+                            console.log('Miss 1')
+                        }
                     }
                     else if(counter === 1) {
-                        enemy.receiveAttack(y - 1,x);
-
+                        if(enemy.receiveAttack(y - 1, x) === 'hit') {
+                            console.log('ANOTHER BIG HIT (2)')
+                            previousY = y - 1;
+                            previousX = x;
+                            counter = 0;
+                        }
+                        else {
+                            counter++;
+                            console.log('Miss 2')
+                        }
                     }
                     else if(counter === 2) {
-                        enemy.receiveAttack(y,x + 1);
-                        
+                        if(x + 1 > 9) {
+                            counter++;
+                        }
+                        else if(enemy.receiveAttack(y,  x + 1) === 'hit') {
+                            console.log('ANOTHER BIG HIT (3)')
+                            previousY = y;
+                            previousX = x + 1;
+                            counter = 0;
+                        }
+                        else {
+                            counter++;
+                            console.log('Miss 3')
+                        }
                     }
                     else if(counter === 3) {
-                        enemy.receiveAttack(y,x - 1);
+                        if(x - 1 < 0) {
+                            console.log(x -1)
+                            previousHit = false;
+                            counter = 0
+                        }
+                        else if(enemy.receiveAttack(y, x - 1) === 'hit') {
+                            console.log('ANOTHER BIG HIT (4)')
+                            previousY = y;
+                            previousX = x - 1;
+                            counter = 0;
+                        }
+                        else {
+                            previousHit = false;
+                            counter = 0;
+                            console.log('Miss 4 and reset')
+                        }
                         
                     }
                 }
-                else {
-                    enemy.receiveAttack(y,x);
-                    counter = 0;
-                }
-
             }
             else if(!previousHit) {
                 if(enemy.receiveAttack(y,x) === 'hit') {
+                    console.log('BIG HIT')
                     previousY = y;
                     previousX = x;
                     previousHit = true;

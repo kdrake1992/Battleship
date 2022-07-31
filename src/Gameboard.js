@@ -119,7 +119,6 @@ const Gameboard = () => {
         return true;
     }
 
-
     return {board, ships, addShip, placeShip, receiveAttack, gameOver}
 }
 
