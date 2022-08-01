@@ -1,19 +1,14 @@
 /* Getting font information */
 @font-face {
-    font-family: 'Poppins';
-    src: url('./poppins.ttf') format('ttf');
-}
-
-@font-face {
   font-family: 'Saira';
   src: url('./saira.ttf') format('ttf');
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
 }
 
 html {
@@ -34,7 +29,6 @@ body {
 }
 
 /* Title */
-
 .title {
   display: flex;
   flex-direction: column;
@@ -52,6 +46,7 @@ body {
 .title h1 {
   font-family: 'Saira', sans-serif;
 }
+
 .title button {
   border: 1px black solid;
   padding: 5px;

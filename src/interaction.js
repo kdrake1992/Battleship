@@ -29,11 +29,13 @@ const interaction = () => {
     const loadUp = () => {
         const titleWords = document.createElement('h1');
         const startButton = document.createElement('button');
+        startButton.setAttribute('id', 'mainStart')
+
         const howTo = document.createElement('p');
 
         titleWords.innerHTML = 'Battleship';
         startButton.innerHTML = 'Start'
-        howTo.innerHTML = "<a href='https://www.hasbro.com/common/instruct/battleship.pdf'>How to Play(Click Here)</a>"
+        howTo.innerHTML = "<a href='https://www.hasbro.com/common/instruct/battleship.pdf'>How to Play</a>"
 
 
         title.appendChild(titleWords);
@@ -41,6 +43,27 @@ const interaction = () => {
         title.appendChild(howTo)
 
         body.appendChild(title);
+        body.appendChild(foot());
+    }
+
+    // Battleship Title at top
+    const placement = () => {
+        title.innerHTML = '';
+        title.style.position = 'relative';
+        footer.style.position = 'relative';
+
+        const titleWords = document.createElement('h1');
+        titleWords.innerHTML = 'Battleship';
+
+        // Uses computer board div as a temp div for buttons
+        const startButton = document.createElement('button');
+        startButton.setAttribute('id', 'battleStart')
+
+        title.appendChild(titleWords);
+        computerBoard.appendChild(startButton);
+
+        body.appendChild(title);
+        body.appendChild(computerBoard);
         body.appendChild(foot());
     }
 
