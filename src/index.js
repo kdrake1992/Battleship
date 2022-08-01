@@ -1,7 +1,9 @@
 import './style.css'
+import interaction from './interaction';
 import Player from './Player'
 
 
+let game = interaction();
 let player1 = Player('Player1', 'human')
 let player2 = Player('Player2', 'ai');
 player1.setTurn();
@@ -28,6 +30,8 @@ while(!player1.board.gameOver()) {
     console.log(counter);
 
 }
+
+game.loadUp();
 
 // player1.attack(1,0,player2.board);
 // player1.attack(2,0,player2.board);

@@ -63,6 +63,7 @@ const Player = (name, type) => {
 
                 console.log('help')
                 if(counter <= 3) {
+                    let add = 1;
                     if(counter === 0) {
                         if(enemy.receiveAttack(y + 1, x) === 'hit') {
                             console.log('ANOTHER BIG HIT (1)')

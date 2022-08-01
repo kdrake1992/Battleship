@@ -1,10 +1,13 @@
 /* Getting font information */
 @font-face {
     font-family: 'Poppins';
-    src: url('./Poppins-Regular.ttf') format('ttf');
-    font-weight: 400;
-    font-style: normal;
-  }
+    src: url('./poppins.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'Saira';
+  src: url('./saira.ttf') format('ttf');
+}
 
 * {
     margin: 0;
@@ -17,9 +20,75 @@ html {
   height: 100%;
 }
 
+/* Body */
 body {
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+
   min-height: 100%;
   background-image: url(./oceanbackground.jpg);
   background-size: cover;
+}
+
+/* Title */
+
+.title {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 30%;
+
+  gap: 20px;
+  padding: 15px;
+  border-radius: 5px;
+  text-align: center;
+
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.title h1 {
+  font-family: 'Saira', sans-serif;
+}
+.title button {
+  border: 1px black solid;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.title button:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+
+.title a {
+  color: black;
+}
+
+.title a:link {
+  text-decoration: none;
+}
+
+.title a:hover {
+  color: blue;
+}
+
+.title a:visited {
+  text-decoration: none;
+}
+
+/* Footer */
+.footer {
+  background-color:  black;
+  color: white;
+  position: absolute;
+  bottom: 0;
+
+  height: 30px;
+  width: 100%;
+  padding: 5px;
+
+  text-align: center;
 }
