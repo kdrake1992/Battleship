@@ -15,6 +15,20 @@ html {
   height: 100%;
 }
 
+/* All buttons */
+button {
+  padding: 7px;
+  border-radius: 5px;
+  border: 1px solid black;
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 1);
+  cursor: pointer;
+}
+
 /* Body */
 body {
   display: flex;
@@ -40,22 +54,12 @@ body {
   border-radius: 5px;
   text-align: center;
 
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .title h1 {
+  font-size: 40px;
   font-family: 'Saira', sans-serif;
-}
-
-.title button {
-  border: 1px black solid;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-.title button:hover {
-  background-color: rgba(255, 255, 255, 0.8);
-  cursor: pointer;
 }
 
 .title a {
@@ -72,6 +76,11 @@ body {
 
 .title a:visited {
   text-decoration: none;
+}
+
+/* Buttons on placement screen */
+#direction {
+  width: 100px;
 }
 
 /* Footer */

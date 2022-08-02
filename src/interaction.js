@@ -24,7 +24,6 @@ const interaction = () => {
     // DOM elements
     const body = document.body;
 
-
     // Initial load up
     const loadUp = () => {
         const titleWords = document.createElement('h1');
@@ -44,27 +43,58 @@ const interaction = () => {
 
         body.appendChild(title);
         body.appendChild(foot());
+
+        // Initial start button
+        const start = document.getElementById('mainStart');
+        start.addEventListener('click', e => {
+        placement();
+        })
+    }
+
+    // Changes ship placement from horizontal and veritcal
+    const direction = () => {
+        const directionButton = document.getElementById('direction');
+        directionButton.addEventListener('click', e => {
+            if(directionButton.innerHTML === 'Horizontal') {
+                directionButton.innerHTML = 'Vertical';
+            }
+            else {
+                directionButton.innerHTML = 'Horizontal';
+            }
+        })
     }
 
     // Battleship Title at top
     const placement = () => {
         title.innerHTML = '';
         title.style.position = 'relative';
+        title.style.padding = '7px';
+        title.style.marginTop = '10px';
         footer.style.position = 'relative';
 
         const titleWords = document.createElement('h1');
         titleWords.innerHTML = 'Battleship';
 
-        // Uses computer board div as a temp div for buttons
+        // Horizontal/Vertical button
+        const directionButton = document.createElement('button');
+        directionButton.setAttribute('id', 'direction')
+        directionButton.innerHTML = 'Horizontal'
+
+        // Start battle button
         const startButton = document.createElement('button');
         startButton.setAttribute('id', 'battleStart')
+        startButton.innerHTML = 'Start Battle'
+
+
 
         title.appendChild(titleWords);
-        computerBoard.appendChild(startButton);
 
         body.appendChild(title);
-        body.appendChild(computerBoard);
+        body.appendChild(directionButton);
+        body.appendChild(startButton);
         body.appendChild(foot());
+
+        direction();
     }
 
     // Create footer 
