@@ -13,10 +13,10 @@ const Player = (name, type) => {
     let board = Gameboard();
 
     board.addShip(ship(5,'Carrier'))
-    // board.addShip(ship(4,'Battleship'))
-    // board.addShip(ship(3,'Destroyer'))
-    // board.addShip(ship(3,'Submarine'))
-    // board.addShip(ship(2,'Patrol Boat'))
+    board.addShip(ship(4,'Battleship'))
+    board.addShip(ship(3,'Destroyer'))
+    board.addShip(ship(3,'Submarine'))
+    board.addShip(ship(2,'Patrol Boat'))
 
     // Getters
     const getName = () => {
@@ -136,7 +136,7 @@ const Player = (name, type) => {
     }
 
     // Returns the following
-    return {board, getName, getTurn, setName, setTurn, attack}
+    return {board, getName, getTurn, setName, setTurn, randomNumber, attack}
 
 }
 

@@ -3,7 +3,10 @@ import interaction from './interaction';
 import Player from './Player'
 
 
+// Start up game
 let game = interaction();
+game.loadUp();
+
 let player1 = Player('Player1', 'human')
 let player2 = Player('Player2', 'ai');
 player1.setTurn();
@@ -11,27 +14,40 @@ player1.setTurn();
 let player1Ships = player1.board.ships;
 let player2Ships = player2.board.ships;
 
-player1.board.placeShip(player1Ships[0], 0,0, 'horizontal')
-player2.board.placeShip(player2Ships[0], 0,0, 'horizontal')
+// Place ships for player and ai
+// player1.board.placeShip(player1Ships[0], 0,0, 'horizontal')
+for(let i = 0; i <= player2Ships.length - 1; i++) {
+    let y = player2.randomNumber();
+    let x = player2.randomNumber();
+    let direction = Math.floor(Math.random() * 2) + 1;
+    if(direction === 1) {
+        direction = 'horizontal';
+    }
+    else if(direction === 2) {
+        direction = 'vertical'
+    }
 
-player1.attack(0,0,player2.board);
-
-let counter = 0;
-while(!player1.board.gameOver()) {
-    counter++;
-    player2.attack(0,0,player1.board)
-    player1Ships.forEach(e => {
-        if(e.isSunk() === true) {
-            if(e.getSunkStatus() === false) {
-                e.setSunkStatus()
-            }
-        }
-    });
-    console.log(counter);
-
+    while(!player2.board.placeShip(player2Ships[i],y,x,direction)) {
+        y = player2.randomNumber();
+        x = player2.randomNumber();
+    }
 }
 
-game.loadUp();
+
+
+// let counter = 0;
+// while(!player1.board.gameOver()) {
+//     counter++;
+//     player2.attack(0,0,player1.board)
+//     player1Ships.forEach(e => {
+//         if(e.isSunk() === true) {
+//             if(e.getSunkStatus() === false) {
+//                 e.setSunkStatus()
+//             }
+//         }
+//     });
+//     console.log(counter);
+// }
 
 // player1.attack(1,0,player2.board);
 // player1.attack(2,0,player2.board);

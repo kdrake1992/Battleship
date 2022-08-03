@@ -10,14 +10,6 @@ const interaction = () => {
     const center = document.createElement('div');
     center.classList.add('center');
 
-    const playerBoard = document.createElement('div');
-    playerBoard.classList.add('board');
-    playerBoard.setAttribute('id', 'player')
-
-    const computerBoard = document.createElement('div');
-    computerBoard.classList.add('board');
-    computerBoard.setAttribute('id', 'computer')
-
     const footer = document.createElement('div');
     footer.classList.add('footer');
 
@@ -64,6 +56,24 @@ const interaction = () => {
         })
     }
 
+    // Creates the player and enemy 10x10 board
+    const boardMaker = (player, ai) => {
+        const boards = document.createElement('div')
+        boards.classList.add('boards');
+
+        const playerBoard = document.createElement('div');
+        playerBoard.classList.add('board');
+        playerBoard.setAttribute('id', 'player')
+    
+        const computerBoard = document.createElement('div');
+        computerBoard.classList.add('board');
+        computerBoard.setAttribute('id', 'computer');
+
+
+
+        return boards;
+    }
+
     // Battleship Title at top
     const placement = () => {
         title.innerHTML = '';
@@ -79,6 +89,9 @@ const interaction = () => {
         const directionButton = document.createElement('button');
         directionButton.setAttribute('id', 'direction')
         directionButton.innerHTML = 'Horizontal'
+
+        // Create the player board
+
 
         // Start battle button
         const startButton = document.createElement('button');
