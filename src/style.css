@@ -54,7 +54,7 @@ body {
   border-radius: 5px;
   text-align: center;
 
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
 .title h1 {
@@ -76,6 +76,45 @@ body {
 
 .title a:visited {
   text-decoration: none;
+}
+
+/* Boards div */
+.boards {
+  display: grid;
+
+  font-size: 20px;
+  padding: 10px;
+  height: auto;
+  width: auto;
+
+  border: 1px black solid;
+  border-radius: 5px;
+  
+  background-color: rgba(222,243,246, 0.8);
+}
+
+/* Player and AI Board div */
+.board {
+  display: grid;
+  grid-template-columns: repeat(10,1fr);
+  grid-template-rows: repeat(10,1fr);
+}
+
+.square {
+  border: 1px solid black;
+  padding: 1em;
+}
+
+.goodSquare {
+  background-color: rgba(255,0,0, .9)
+}
+
+.badSquare {
+  background-color: lightgreen;
+}
+
+.setSquare {
+  background-color: green;
 }
 
 /* Buttons on placement screen */

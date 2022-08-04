@@ -5,7 +5,6 @@ import Player from './Player'
 
 // Start up game
 let game = interaction();
-game.loadUp();
 
 let player1 = Player('Player1', 'human')
 let player2 = Player('Player2', 'ai');
@@ -15,7 +14,6 @@ let player1Ships = player1.board.ships;
 let player2Ships = player2.board.ships;
 
 // Place ships for player and ai
-// player1.board.placeShip(player1Ships[0], 0,0, 'horizontal')
 for(let i = 0; i <= player2Ships.length - 1; i++) {
     let y = player2.randomNumber();
     let x = player2.randomNumber();
@@ -33,7 +31,7 @@ for(let i = 0; i <= player2Ships.length - 1; i++) {
     }
 }
 
-
+game.loadUp(player1, player2);
 
 // let counter = 0;
 // while(!player1.board.gameOver()) {
