@@ -80,6 +80,91 @@ const interaction = () => {
         return boards;
     }
 
+    // Grid to array position
+    // Can write better logic later
+    const position = (location) => {
+        let pXY = [];
+        let x = 0;
+        let y = 0;
+
+        // Gets x axis
+        if(location <= 9) {
+            x = 0;
+        }
+        else if(location >= 10 && location <=19) {
+            x = 1;
+        }
+        else if(location >= 20 && location <=29) {
+            x = 2;
+        }
+        else if(location >= 30 && location <=39) {
+            x = 3;
+        }
+        else if(location >= 40 && location <=49) {
+            x = 4;
+        }
+        else if(location >= 50 && location <=59) {
+            x = 5;
+        }
+        else if(location >= 60 && location <=69) {
+            x = 6;
+        }
+        else if(location >= 70 && location <=79) {
+            x = 7;
+        }
+        else if(location >= 80 && location <=89) {
+            x = 8;
+        }
+        else if(location >= 90 && location <=99) {
+            x = 9;
+        }
+        
+        // Gets the last digit of the location
+        if(location.length === 1) {
+            location = location[0];
+        }
+        else {
+            location = location[1];
+        }
+
+        // Gets y axis
+        if(location == 0) {
+            y = 0;
+        }
+        else if(location == 1) {
+            y = 1;
+        }
+        else if(location == 2) {
+            y = 2;
+        }
+        else if(location == 3) {
+            y = 3;
+        }
+        else if(location == 4) {
+            y = 4;
+        }
+        else if(location == 5) {
+            y = 5;
+        }
+        else if(location == 6) {
+            y = 6;
+        }
+        else if(location == 7) {
+            y = 7;
+        }
+        else if(location == 8) {
+            y = 8;
+        }
+        else if(location == 9) {
+            y = 9;
+        }
+
+        pXY.push(x);
+        pXY.push(y);
+        return pXY;
+    }
+
+
     // Battleship Title at top
     const placement = (player1, player2) => {
         title.innerHTML = '';
@@ -105,8 +190,6 @@ const interaction = () => {
         startButton.setAttribute('id', 'battleStart')
         startButton.innerHTML = 'Start Battle'
 
-
-
         title.appendChild(titleWords);
 
         body.appendChild(title);
@@ -120,14 +203,22 @@ const interaction = () => {
 
         // Hover over effect
         let playerSquare = document.querySelectorAll('.square');
+        let x = 0;
+        let y = 0;
         playerSquare.forEach(e => {
             e.addEventListener('mouseover', ee => {
-                e.style.backgroundColor = 'green';
+                console.log(position(e.id));
+                e.style.backgroundColor = 'lightgreen';
             })
         })
         playerSquare.forEach(e => {
             e.addEventListener('mouseout', ee => {
                 e.style.backgroundColor = 'transparent';
+            })
+        })
+        playerSquare.forEach(e => {
+            e.addEventListener('click', ee => {
+                e.style.backgroundColor = 'green';
             })
         })
     }

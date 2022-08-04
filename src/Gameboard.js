@@ -119,7 +119,7 @@ const Gameboard = () => {
         return true;
     }
 
-    return {board, ships, addShip, placeShip, receiveAttack, gameOver}
+    return {board, ships, addShip, placeShip, checkBoard, receiveAttack, gameOver}
 }
 
 module.exports = Gameboard;
