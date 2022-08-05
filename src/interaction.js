@@ -205,21 +205,109 @@ const interaction = () => {
         let playerSquare = document.querySelectorAll('.square');
         let x = 0;
         let y = 0;
+
+        // Remove event listeners
+        const removeEvents = (obj) => {
+            obj.removeEventListener('mouseout', mouseout)
+            obj.removeEventListener('mouseover', mouseover)
+            obj.removeEventListener('click', click)
+        }
+
+        // Function to check the code
+        const checkHover = (e, type) => {
+            let loc = position(e.id);
+            if(player1.board.checkPlacement(player1.board.ships[0], loc[1], loc[0],directionButton.innerHTML.toLowerCase())) {
+                if(directionButton.innerHTML.toLowerCase() == 'horizontal') {
+                    for(let i = 0; i < player1.board.ships[0].getLength(); i++) {
+                        let next = parseInt(e.id) + i;
+                        let nextPos = document.getElementById(next);
+                        if(type === 'mouseover') {
+                            nextPos.style.backgroundColor = 'lightgreen';
+                        }
+                        else if(type === 'mouseout') {
+                            nextPos.style.backgroundColor = 'transparent';
+                        }
+                        else if(type === 'click') {
+                            nextPos.style.backgroundColor = 'green';
+                            removeEvents(nextPos)
+                        }
+
+                    }
+                }
+                else if(directionButton.innerHTML.toLowerCase() == 'vertical') {
+                    for(let i = 0; i < player1.board.ships[0].getLength(); i++) {
+                        let next = parseInt(e.id) + (10 * i);
+                        let nextPos = document.getElementById(next);
+                        if(type === 'mouseover') {
+                            nextPos.style.backgroundColor = 'lightgreen';
+                        }
+                        else if(type === 'mouseout') {
+                            nextPos.style.backgroundColor = 'transparent';
+                        }
+                        else if(type === 'click') {
+                            nextPos.style.backgroundColor = 'green';
+                            removeEvents(nextPos);
+                        }
+                    }
+                }
+            }
+            else {
+                if(directionButton.innerHTML.toLowerCase() == 'horizontal') {
+                    for(let i = 0; i < player1.board.ships[0].getLength(); i++) {
+                        let next = parseInt(e.id) + i;
+                        if((next % 10 === 0)) {
+                            break;
+                        }
+                        else {
+                            let nextPos = document.getElementById(next);
+                            if(type === 'mouseover') {
+                                nextPos.style.backgroundColor = 'red';
+                            }
+                            if(type === 'mouseout') {
+                                nextPos.style.backgroundColor = 'transparent';
+                            }
+                        }
+                    }
+                }
+                else if(directionButton.innerHTML.toLowerCase() == 'vertical') {
+                    for(let i = 0; i < player1.board.ships[0].getLength(); i++) {
+                        let next = parseInt(e.id) + (10 * i);
+                        if(next > 99) {
+                            break;
+                        }
+                        else{
+                            let nextPos = document.getElementById(next);
+                            if(type === 'mouseover') {
+                                nextPos.style.backgroundColor = 'red';
+                            }
+                            if(type === 'mouseout') {
+                                nextPos.style.backgroundColor = 'transparent';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // Function handler
+        const mouseover = function(e) {
+            checkHover(e.target, 'mouseover');
+        }
+        const mouseout = function(e) {
+            checkHover(e.target, 'mouseout');
+        }
+        const click = function(e) {
+            checkHover(e.target, 'click');
+        }
+
+        // Listeners
         playerSquare.forEach(e => {
-            e.addEventListener('mouseover', ee => {
-                console.log(position(e.id));
-                e.style.backgroundColor = 'lightgreen';
-            })
+            e.addEventListener('mouseover', mouseover);
         })
         playerSquare.forEach(e => {
-            e.addEventListener('mouseout', ee => {
-                e.style.backgroundColor = 'transparent';
-            })
+            e.addEventListener('mouseout', mouseout);
         })
         playerSquare.forEach(e => {
-            e.addEventListener('click', ee => {
-                e.style.backgroundColor = 'green';
-            })
+            e.addEventListener('click', click)
         })
     }
 

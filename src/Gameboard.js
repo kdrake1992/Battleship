@@ -81,6 +81,31 @@ const Gameboard = () => {
         }
     }
 
+
+    // Checks ship placement for DOM
+    const checkPlacement = (ship,x,y,placement) => {
+        let check = true;
+        if(placement === 'horizontal') {
+            for(let i = x; i < x + ship.getLength(); i++) {
+                if(board[y][i] !== '') {
+                        check = false;
+                }
+            }
+            return check;
+        }
+        else if(placement === 'vertical') {
+            for(let i = y; i < y + ship.getLength(); i++) {
+                if(i > 9) {
+                    check = false;
+                }
+                else if(board[i][x] !== '') {
+                    check = false;
+                }
+            }
+            return check;
+        }
+    }
+
     // Determines whether or ont the attack hit a ship
     // and sends a hit function to the correct ship
     const receiveAttack = (x,y) => {
@@ -119,7 +144,7 @@ const Gameboard = () => {
         return true;
     }
 
-    return {board, ships, addShip, placeShip, checkBoard, receiveAttack, gameOver}
+    return {board, ships, addShip, placeShip, checkPlacement, receiveAttack, gameOver}
 }
 
 module.exports = Gameboard;
