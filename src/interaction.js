@@ -1,4 +1,6 @@
 const interaction = () => {
+    let shipNum = 0;
+    let ready = false;
 
     // Create initial divs
     const title = document.createElement('div');
@@ -39,8 +41,18 @@ const interaction = () => {
         // Initial start button
         const start = document.getElementById('mainStart');
         start.addEventListener('click', e => {
-        placement(player1, player2);
+            placement(player1, player2);
+
+            // Once placement is done, move to game
+            const battleStart = document.getElementById('battleStart');
+            battleStart.addEventListener('click', e => {
+                if(ready === true) {
+                    gameInteraction();
+                }
+            })
         })
+
+        
     }
 
     // Changes ship placement from horizontal and veritcal
@@ -57,7 +69,7 @@ const interaction = () => {
     }
 
     // Creates the player and enemy 10x10 board
-    const boardMaker = (player1, player2) => {
+    const boardMaker = () => {
         const boards = document.createElement('div')
         boards.classList.add('boards');
 
@@ -166,7 +178,7 @@ const interaction = () => {
 
 
     // Battleship Title at top
-    const placement = (player1, player2) => {
+    const placement = (player1) => {
         title.innerHTML = '';
         title.style.position = 'relative';
         title.style.padding = '7px';
@@ -182,8 +194,7 @@ const interaction = () => {
         directionButton.innerHTML = 'Horizontal'
 
         // Create the player board
-        const board = boardMaker(player1, player2);
-
+        const board = boardMaker();
 
         // Start battle button
         const startButton = document.createElement('button');
@@ -216,44 +227,82 @@ const interaction = () => {
         // Function to check the code
         const checkHover = (e, type) => {
             let loc = position(e.id);
-            if(player1.board.checkPlacement(player1.board.ships[0], loc[1], loc[0],directionButton.innerHTML.toLowerCase())) {
+
+            // Removes event listeners once finish
+            if(shipNum === 5) {
+                playerSquare.forEach(e => {
+                    removeEvents(e);
+                })
+
+                ready = true;
+            }
+
+            else if(player1.board.checkPlacement(player1.board.ships[shipNum], loc[1], loc[0], directionButton.innerHTML.toLowerCase())) {
                 if(directionButton.innerHTML.toLowerCase() == 'horizontal') {
-                    for(let i = 0; i < player1.board.ships[0].getLength(); i++) {
+                    for(let i = 0; i < player1.board.ships[shipNum].getLength(); i++) {
                         let next = parseInt(e.id) + i;
                         let nextPos = document.getElementById(next);
                         if(type === 'mouseover') {
+                            if(nextPos.style.backgroundColor == 'green') {
+                                break;
+                            }
                             nextPos.style.backgroundColor = 'lightgreen';
                         }
                         else if(type === 'mouseout') {
+                            if(nextPos.style.backgroundColor == 'green') {
+                                break;
+                            }
                             nextPos.style.backgroundColor = 'transparent';
                         }
                         else if(type === 'click') {
+                            if(i === 0) {
+                                player1.board.placeShip(player1.board.ships[shipNum], loc[1], loc[0], directionButton.innerHTML.toLowerCase());
+                                console.log(player1.board.board)
+                            }
                             nextPos.style.backgroundColor = 'green';
                             removeEvents(nextPos)
+                            if(i + 1 == player1.board.ships[shipNum].getLength()) {
+                                shipNum++;
+                                break;
+                            }
                         }
 
                     }
                 }
                 else if(directionButton.innerHTML.toLowerCase() == 'vertical') {
-                    for(let i = 0; i < player1.board.ships[0].getLength(); i++) {
+                    for(let i = 0; i < player1.board.ships[shipNum].getLength(); i++) {
                         let next = parseInt(e.id) + (10 * i);
                         let nextPos = document.getElementById(next);
                         if(type === 'mouseover') {
+                            if(nextPos.style.backgroundColor == 'green') {
+                                break;
+                            }
                             nextPos.style.backgroundColor = 'lightgreen';
                         }
                         else if(type === 'mouseout') {
+                            if(nextPos.style.backgroundColor == 'green') {
+                                break;
+                            }
                             nextPos.style.backgroundColor = 'transparent';
                         }
                         else if(type === 'click') {
+                            if(i === 0) {
+                                player1.board.placeShip(player1.board.ships[shipNum], loc[1], loc[0], directionButton.innerHTML.toLowerCase());
+                                console.log(player1.board.board)
+                            }
                             nextPos.style.backgroundColor = 'green';
                             removeEvents(nextPos);
+                            if(i + 1 == player1.board.ships[shipNum].getLength()) {
+                                shipNum++;
+                                break;
+                            }
                         }
                     }
                 }
             }
             else {
                 if(directionButton.innerHTML.toLowerCase() == 'horizontal') {
-                    for(let i = 0; i < player1.board.ships[0].getLength(); i++) {
+                    for(let i = 0; i < player1.board.ships[shipNum].getLength(); i++) {
                         let next = parseInt(e.id) + i;
                         if((next % 10 === 0)) {
                             break;
@@ -261,16 +310,22 @@ const interaction = () => {
                         else {
                             let nextPos = document.getElementById(next);
                             if(type === 'mouseover') {
+                                if(nextPos.style.backgroundColor == 'green') {
+                                    break;
+                                }
                                 nextPos.style.backgroundColor = 'red';
                             }
                             if(type === 'mouseout') {
+                                if(nextPos.style.backgroundColor == 'green') {
+                                    break;
+                                }
                                 nextPos.style.backgroundColor = 'transparent';
                             }
                         }
                     }
                 }
                 else if(directionButton.innerHTML.toLowerCase() == 'vertical') {
-                    for(let i = 0; i < player1.board.ships[0].getLength(); i++) {
+                    for(let i = 0; i < player1.board.ships[shipNum].getLength(); i++) {
                         let next = parseInt(e.id) + (10 * i);
                         if(next > 99) {
                             break;
@@ -278,15 +333,22 @@ const interaction = () => {
                         else{
                             let nextPos = document.getElementById(next);
                             if(type === 'mouseover') {
+                                if(nextPos.style.backgroundColor == 'green') {
+                                    break;
+                                }
                                 nextPos.style.backgroundColor = 'red';
                             }
                             if(type === 'mouseout') {
+                                if(nextPos.style.backgroundColor == 'green') {
+                                    break;
+                                }
                                 nextPos.style.backgroundColor = 'transparent';
                             }
                         }
                     }
                 }
             }
+
         }
         // Function handler
         const mouseover = function(e) {
@@ -311,6 +373,27 @@ const interaction = () => {
         })
     }
 
+    // Game interaction
+    const gameInteraction = () => {
+        // Remove previous screen
+        const directionButton = document.getElementById('direction');
+        const startButton = document.getElementById('battleStart');
+        const placementBoard = document.querySelector('.boards');
+
+        directionButton.remove();
+        startButton.remove();
+        placementBoard.remove();
+
+        // Add the 2 new boards and status
+        const status = document.createElement('div');
+        status.setAttribute('id', 'status')
+        status.innerHTML = 'Let the battle begin!'
+
+
+        // Align the divs
+        const footer = document.querySelector('.footer')
+        body.insertBefore(status, footer)
+    }
     // Create footer 
     function foot() {
         footer.innerHTML = '<p>Made by Kevin Drake for The Odin Project <a href="https://github.com/kdrake1992"><i class="fa-brands fa-github"></i></a><p>'
