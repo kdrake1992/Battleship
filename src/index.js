@@ -83,7 +83,3 @@ game.loadUp(player1, player2);
 //     }
 //     console.log(player1.board.board)
 // }
-
-
-console.log(player1.board.board)
-console.log(player2.board.board)

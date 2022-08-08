@@ -94,8 +94,6 @@ body {
 
 /* Boards div */
 .boards {
-  display: grid;
-
   font-size: 20px;
   padding: 10px;
   height: auto;
@@ -116,7 +114,18 @@ body {
 
 .square {
   border: 1px solid black;
-  padding: 1em;
+  padding: .8em;
+}
+
+.gameBoards {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+}
+
+#player, #computer {
+  background-color: rgba(222,243,246, 0.8);
 }
 
 /* Buttons on placement screen */
@@ -129,6 +138,7 @@ body {
   width: 300px;
   background-color: rgba(255, 255, 255, 0.6);
 
+  margin-top: 20px;
   padding: 10px;
   border-radius: 5px;
   text-align: center;

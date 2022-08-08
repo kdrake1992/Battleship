@@ -48,7 +48,7 @@ const interaction = () => {
             battleStart.addEventListener('click', e => {
                 if(ready === true) {
                     fadePlacement();
-                    gameInteraction();
+                    gameInteraction(player1, player2);
                 }
             })
         })
@@ -70,27 +70,45 @@ const interaction = () => {
     }
 
     // Creates the player and enemy 10x10 board
-    const boardMaker = () => {
+    const boardMaker = (type) => {
         const boards = document.createElement('div')
-        boards.classList.add('boards');
 
-        const playerBoard = document.createElement('div');
-        playerBoard.classList.add('board');
-        playerBoard.setAttribute('id', 'player')
+        let playerBoard = boardGenerator();
+        let computerBoard = boardGenerator();
+
+        if(type === 'game') {
+            boards.classList.add('gameBoards');
+
+            playerBoard.setAttribute('id', 'player');
+            computerBoard.setAttribute('id', 'computer');
+            boards.appendChild(computerBoard);
+            boards.appendChild(playerBoard);
+
+
+
+            return boards
+        }
+
+        else {
+            boards.classList.add('boards');
+            boards.appendChild(playerBoard)
+            return boards;
+        }
+    }
+
+    // Board generator 
+    const boardGenerator = () => {
+        let board = document.createElement('div');
+        board.classList.add('board');
 
         for(let i = 0; i < (10*10); i++) {
             let square = document.createElement('div') 
             square.classList.add('square');
             square.setAttribute('id', i);
-            playerBoard.appendChild(square);
+            board.appendChild(square);
         }
-     
-        const computerBoard = document.createElement('div');
-        computerBoard.classList.add('board');
-        computerBoard.setAttribute('id', 'computer');
 
-        boards.appendChild(playerBoard)
-        return boards;
+        return board;
     }
 
     // Grid to array position
@@ -258,7 +276,6 @@ const interaction = () => {
                         else if(type === 'click') {
                             if(i === 0) {
                                 player1.board.placeShip(player1.board.ships[shipNum], loc[1], loc[0], directionButton.innerHTML.toLowerCase());
-                                console.log(player1.board.board)
                             }
                             nextPos.style.backgroundColor = 'green';
                             removeEvents(nextPos)
@@ -385,22 +402,32 @@ const interaction = () => {
         directionButton.setAttribute('id', 'fadeOut');
         startButton.setAttribute('id', 'fadeOut');
         placementBoard.setAttribute('id', 'fadeOut');
+
+        title.remove();
+        directionButton.remove();
+        startButton.remove();
+        placementBoard.remove()
     }
 
     // Game interaction
-    const gameInteraction = () => {
+    const gameInteraction = (player1, player2) => {
         // Add the 2 new boards and status
         const status = document.createElement('div');
         status.setAttribute('id', 'status');
         const currentStatus = document.createElement('p');
         currentStatus.innerHTML = 'Let the battle begin!'
 
+        let game = boardMaker('game');
 
         // Align the divs
         status.appendChild(currentStatus);
+        const footer = document.querySelector('.footer');
+        body.insertBefore(game, footer);
+        body.insertBefore(status, game);
 
-        const footer = document.querySelector('.footer')
-        body.insertBefore(status, footer)
+        console.log(player2.board.board)
+        console.log(player1.board.board)
+
     }
 
     // Create footer 
