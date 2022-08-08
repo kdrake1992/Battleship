@@ -29,6 +29,20 @@ button:hover {
   cursor: pointer;
 }
 
+/* Fade in effect */
+#fadeIn {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 2s linear;
+}
+
+/* Fade out effect */
+#fadeOut {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 2s, opacity 2s linear;
+}
+
 /* Body */
 body {
   display: flex;
@@ -108,6 +122,42 @@ body {
 /* Buttons on placement screen */
 #direction {
   width: 100px;
+}
+
+/* Status bar */
+#status {
+  width: 300px;
+  background-color: rgba(255, 255, 255, 0.6);
+
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#status p {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: large;
+
+  text-align: center;
+  overflow: hidden;
+  border-right: .15em solid black;
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: .15em;
+  animation: 
+    typing 3.5s steps(40,end),
+    blink-caret .75s step-end infinite;
+}
+
+/* Typing effect */
+@keyframes typing {
+  from {width: 0}
+  to {width: 100%;}
+}
+
+@keyframes blink-caret {
+  from, to {border-color: transparent}
+  50% { border-color: black;}
 }
 
 /* Footer */

@@ -47,6 +47,7 @@ const interaction = () => {
             const battleStart = document.getElementById('battleStart');
             battleStart.addEventListener('click', e => {
                 if(ready === true) {
+                    fadePlacement();
                     gameInteraction();
                 }
             })
@@ -373,27 +374,35 @@ const interaction = () => {
         })
     }
 
-    // Game interaction
-    const gameInteraction = () => {
-        // Remove previous screen
+    // Fade out placement screen
+    const fadePlacement = () => {
+        // Fade out and remove screens
         const directionButton = document.getElementById('direction');
         const startButton = document.getElementById('battleStart');
         const placementBoard = document.querySelector('.boards');
+        
+        title.setAttribute('id', 'fadeOut');
+        directionButton.setAttribute('id', 'fadeOut');
+        startButton.setAttribute('id', 'fadeOut');
+        placementBoard.setAttribute('id', 'fadeOut');
+    }
 
-        directionButton.remove();
-        startButton.remove();
-        placementBoard.remove();
-
+    // Game interaction
+    const gameInteraction = () => {
         // Add the 2 new boards and status
         const status = document.createElement('div');
-        status.setAttribute('id', 'status')
-        status.innerHTML = 'Let the battle begin!'
+        status.setAttribute('id', 'status');
+        const currentStatus = document.createElement('p');
+        currentStatus.innerHTML = 'Let the battle begin!'
 
 
         // Align the divs
+        status.appendChild(currentStatus);
+
         const footer = document.querySelector('.footer')
         body.insertBefore(status, footer)
     }
+
     // Create footer 
     function foot() {
         footer.innerHTML = '<p>Made by Kevin Drake for The Odin Project <a href="https://github.com/kdrake1992"><i class="fa-brands fa-github"></i></a><p>'
