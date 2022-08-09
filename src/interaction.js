@@ -78,13 +78,28 @@ const interaction = () => {
 
         if(type === 'game') {
             boards.classList.add('gameBoards');
-
             playerBoard.setAttribute('id', 'player');
             computerBoard.setAttribute('id', 'computer');
-            boards.appendChild(computerBoard);
-            boards.appendChild(playerBoard);
+            
+            const top = document.createElement('div');
+            const bot = document.createElement('div');
+
+            const topText = document.createElement('p');
+            const botText = document.createElement('p');
+            topText.setAttribute('id', 'computerWords');
+            botText.setAttribute('id', 'playerWords');
+
+            topText.innerHTML = 'Enemy';
+            botText.innerHTML = 'Player';
 
 
+            top.appendChild(topText);
+            top.appendChild(computerBoard);
+            bot.appendChild(botText);
+            bot.appendChild(playerBoard);
+
+            boards.appendChild(top);
+            boards.appendChild(bot);
 
             return boards
         }
@@ -243,20 +258,13 @@ const interaction = () => {
             obj.removeEventListener('click', click)
         }
 
+        let test = 0
+
         // Function to check the code
         const checkHover = (e, type) => {
             let loc = position(e.id);
 
-            // Removes event listeners once finish
-            if(shipNum === 5) {
-                playerSquare.forEach(e => {
-                    removeEvents(e);
-                })
-
-                ready = true;
-            }
-
-            else if(player1.board.checkPlacement(player1.board.ships[shipNum], loc[1], loc[0], directionButton.innerHTML.toLowerCase())) {
+            if(player1.board.checkPlacement(player1.board.ships[shipNum], loc[1], loc[0], directionButton.innerHTML.toLowerCase())) {
                 if(directionButton.innerHTML.toLowerCase() == 'horizontal') {
                     for(let i = 0; i < player1.board.ships[shipNum].getLength(); i++) {
                         let next = parseInt(e.id) + i;
@@ -367,6 +375,14 @@ const interaction = () => {
                 }
             }
 
+            // Removes event listeners once finish
+            if(shipNum === 5) {
+                playerSquare.forEach(e => {
+                    removeEvents(e);
+                })
+                ready = true;
+            }
+
         }
         // Function handler
         const mouseover = function(e) {
@@ -424,6 +440,19 @@ const interaction = () => {
         const footer = document.querySelector('.footer');
         body.insertBefore(game, footer);
         body.insertBefore(status, game);
+
+        let computer = document.querySelector('#computer')
+        computer.childNodes.forEach(e => {
+            e.addEventListener('mouseover', function() {
+                e.style.backgroundColor = 'lightgreen'
+            })
+            e.addEventListener('mouseout', function() {
+                e.style.backgroundColor = 'transparent'
+            })
+            e.addEventListener('click', function() {
+                e.style.backgroundColor = 'green'
+            })
+        })
 
         console.log(player2.board.board)
         console.log(player1.board.board)

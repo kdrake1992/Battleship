@@ -121,11 +121,27 @@ body {
   display: flex;
   flex-direction: column;
   gap: 15px;
-
+  margin-left: -20px;
 }
 
+.gameBoards > div {
+  display: flex;
+  gap: 10px;
+}
+ 
 #player, #computer {
   background-color: rgba(222,243,246, 0.8);
+}
+
+#playerWords, #computerWords {
+  writing-mode: vertical-lr;
+  text-orientation: upright;
+  text-align: center;
+  background-color: rgba(222,243,246, 0.6);
+}
+
+#computer .square {
+  cursor: crosshair;
 }
 
 /* Buttons on placement screen */
