@@ -126,6 +126,32 @@ const interaction = () => {
         return board;
     }
 
+    // Board reader Fix this
+    const boardReader = (type, board, htmlBoard, location) => {
+        let counter = 0;
+        for(let i = 0; i <= 9; i++) {
+            for(let j = 0; j <= 9; j++) {
+                if(type === 'start') {
+                    if(board[i][j] !== '') {
+                        htmlBoard[counter].style.backgroundColor = 'green'
+                    }
+                }
+                else if(type === 'attack') {
+                    if(board[i][j] !== '') {
+                        // htmlBoard[counter].style.backgroundColor = 'red';
+                        console.log('hit')
+                    }
+                    else {
+                        // htmlBoard[counter].style.backgroundColor = 'lightblue';
+                        console.log('miss')
+                    }
+                }
+                counter++;
+            }
+        }
+
+    }
+
     // Grid to array position
     // Can write better logic later
     const position = (location) => {
@@ -258,8 +284,6 @@ const interaction = () => {
             obj.removeEventListener('click', click)
         }
 
-        let test = 0
-
         // Function to check the code
         const checkHover = (e, type) => {
             let loc = position(e.id);
@@ -314,7 +338,6 @@ const interaction = () => {
                         else if(type === 'click') {
                             if(i === 0) {
                                 player1.board.placeShip(player1.board.ships[shipNum], loc[1], loc[0], directionButton.innerHTML.toLowerCase());
-                                console.log(player1.board.board)
                             }
                             nextPos.style.backgroundColor = 'green';
                             removeEvents(nextPos);
@@ -441,6 +464,9 @@ const interaction = () => {
         body.insertBefore(game, footer);
         body.insertBefore(status, game);
 
+        let player = document.querySelector('#player')
+        boardReader('start', player1.board.board, player.childNodes);
+
         let computer = document.querySelector('#computer')
         computer.childNodes.forEach(e => {
             e.addEventListener('mouseover', function() {
@@ -450,12 +476,13 @@ const interaction = () => {
                 e.style.backgroundColor = 'transparent'
             })
             e.addEventListener('click', function() {
+                boardReader('attack', player2.board.board, computer)
                 e.style.backgroundColor = 'green'
             })
         })
 
-        console.log(player2.board.board)
-        console.log(player1.board.board)
+        console.log(player2.board.board);
+        console.log(player1.board.board);
 
     }
 
