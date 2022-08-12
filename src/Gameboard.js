@@ -118,7 +118,6 @@ const Gameboard = () => {
                             break;
                         }
                     }
-
                     board[y][x] = 'x'
                     return 'hit';
                 }
@@ -140,7 +139,6 @@ const Gameboard = () => {
                 return false;
             }
         }
-        console.log('Game Over')
         return true;
     }
 

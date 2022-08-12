@@ -33,20 +33,6 @@ for(let i = 0; i <= player2Ships.length - 1; i++) {
 
 game.loadUp(player1, player2);
 
-// let counter = 0;
-// while(!player1.board.gameOver()) {
-//     counter++;
-//     player2.attack(0,0,player1.board)
-//     player1Ships.forEach(e => {
-//         if(e.isSunk() === true) {
-//             if(e.getSunkStatus() === false) {
-//                 e.setSunkStatus()
-//             }
-//         }
-//     });
-//     console.log(counter);
-// }
-
 // player1.attack(1,0,player2.board);
 // player1.attack(2,0,player2.board);
 // player1.attack(3,0,player2.board);

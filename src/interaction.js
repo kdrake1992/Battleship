@@ -127,33 +127,39 @@ const interaction = () => {
     }
 
     // Board reader Fix this
-    const boardReader = (type, board, htmlBoard, location) => {
-        let counter = 0;
-        for(let i = 0; i <= 9; i++) {
-            for(let j = 0; j <= 9; j++) {
-                if(type === 'start') {
-                    if(board[i][j] !== '') {
-                        htmlBoard[counter].style.backgroundColor = 'green'
+    const boardReader = (type, player, htmlBoard, enemy, loc) => {
+        if(type === 'start') {
+            let counter = 0;
+            for(let i = 0; i <= 9; i++) {
+                for(let j = 0; j <= 9; j++) {
+                    if(type === 'start') {
+                        if(player.board.board[i][j] !== '') {
+                            htmlBoard[counter].style.backgroundColor = 'green'
+                        }
                     }
+                    counter++;
                 }
-                else if(type === 'attack') {
-                    if(board[i][j] !== '') {
-                        // htmlBoard[counter].style.backgroundColor = 'red';
-                        console.log('hit')
-                    }
-                    else {
-                        // htmlBoard[counter].style.backgroundColor = 'lightblue';
-                        console.log('miss')
-                    }
-                }
-                counter++;
             }
         }
+        else if(type === 'attack') {
+            let pos = position(loc);
+            let x = pos[0];
+            let y = pos[1];
 
+            const status = document.getElementById('status')
+            if(player.attack(y, x, enemy.board) === 'hit') {
+                htmlBoard.childNodes[loc].style.backgroundColor = 'red';
+                // status.innerHTML(player.getName() + 'has hit a ship!')
+
+            }
+            else {
+                htmlBoard.childNodes[loc].style.backgroundColor = 'dodgerblue';
+                // status.innerHTML(player.getName() + 'has missed.')
+            }
+        }
     }
 
     // Grid to array position
-    // Can write better logic later
     const position = (location) => {
         let pXY = [];
         let x = 0;
@@ -418,7 +424,7 @@ const interaction = () => {
             checkHover(e.target, 'click');
         }
 
-        // Listeners
+        // Listeners for check hover
         playerSquare.forEach(e => {
             e.addEventListener('mouseover', mouseover);
         })
@@ -465,24 +471,78 @@ const interaction = () => {
         body.insertBefore(status, game);
 
         let player = document.querySelector('#player')
-        boardReader('start', player1.board.board, player.childNodes);
+        boardReader('start', player1, player.childNodes);
+
+        // Function handler for interaction
+        const mouseover = function(e) {
+            e.target.style.backgroundColor = 'lightgreen'
+        }
+        const mouseout = function(e) {
+            e.target.style.backgroundColor = 'transparent'
+        } 
+        const click = function(e) {
+            if(player1.getTurn()) {
+                boardReader('attack', player1, computer, player2, e.target.id);
+                removeEvents(e.target);
+                if(!player2.board.gameOver()) {
+                    player2.board.ships.forEach(e => {
+                        if(e.isSunk() === true) {
+                            if(e.getSunkStatus() === false) {
+                                e.setSunkStatus()
+                            }
+                        }
+                    });
+                    // player1.setTurn();
+                    // player2.setTurn();
+                }
+                else {
+                    console.log('Game Over')
+                    computer.childNodes.forEach(e => {
+                        removeEvents(e);
+
+                    })
+                }
+            }
+            // else if(player2.getTurn()) {
+            //     boardReader('attack', player2, computer, player1, e.target.id);
+            //     removeEvents(e.target);
+            //     if(!player1.board.gameOver()) {
+            //         player1.board.ships.forEach(e => {
+            //             if(e.isSunk() === true) {
+            //                 if(e.getSunkStatus() === false) {
+            //                     e.setSunkStatus()
+            //                 }
+            //             }
+            //         });
+            //         player1.setTurn();
+            //         player2.setTurn();
+            //     }
+            //     else {
+            //         console.log('Game Over')
+            //         computer.childNodes.forEach(e => {
+            //             removeEvents(e);
+
+            //         })
+            //     }
+            // }
+        }
+
+        // Remove event listeners
+        const removeEvents = (obj) => {
+            obj.removeEventListener('mouseout', mouseout)
+            obj.removeEventListener('mouseover', mouseover)
+            obj.removeEventListener('click', click)
+        }
 
         let computer = document.querySelector('#computer')
         computer.childNodes.forEach(e => {
-            e.addEventListener('mouseover', function() {
-                e.style.backgroundColor = 'lightgreen'
-            })
-            e.addEventListener('mouseout', function() {
-                e.style.backgroundColor = 'transparent'
-            })
-            e.addEventListener('click', function() {
-                boardReader('attack', player2.board.board, computer)
-                e.style.backgroundColor = 'green'
-            })
-        })
+            e.addEventListener('mouseover', mouseover);
+            e.addEventListener('mouseout', mouseout);
+            e.addEventListener('click', click);
+        });
 
         console.log(player2.board.board);
-        console.log(player1.board.board);
+        // console.log(player1.board.board);
 
     }
 
