@@ -142,21 +142,57 @@ const interaction = () => {
             }
         }
         else if(type === 'attack') {
-            let pos = position(loc);
-            let x = pos[0];
-            let y = pos[1];
-
-            const status = document.getElementById('status')
-            if(player.attack(y, x, enemy.board) === 'hit') {
-                htmlBoard.childNodes[loc].style.backgroundColor = 'red';
-                // status.innerHTML(player.getName() + 'has hit a ship!')
-
+            if(player.getName() === 'Player1') {
+                let pos = position(loc);
+                let x = pos[0];
+                let y = pos[1];
+    
+                const status = document.getElementById('status')
+                if(player.attack(y, x, enemy.board) === 'hit') {
+                    htmlBoard.childNodes[loc].style.backgroundColor = 'red';
+                    // status.innerHTML(player.getName() + 'has hit a ship!')
+    
+                }
+                else {
+                    htmlBoard.childNodes[loc].style.backgroundColor = 'dodgerblue';
+                    // status.innerHTML(player.getName() + 'has missed.')
+                }
             }
-            else {
-                htmlBoard.childNodes[loc].style.backgroundColor = 'dodgerblue';
-                // status.innerHTML(player.getName() + 'has missed.')
+            else if(player.getName() === 'Player2') {
+                const status = document.getElementById('status')
+                if(player.attack(0, 0, enemy.board) === true) {
+                    console.log('HIT')
+                    let pos = player.getCompMove();
+                    pos = aGrid(pos);
+                    htmlBoard.childNodes[pos].style.backgroundColor = 'red';
+                    // console.log(enemy.board.board)
+                    // status.innerHTML(player.getName() + 'has hit a ship!')
+                }
+
+                else {
+                    let pos = player.getCompMove();
+                    pos = aGrid(pos);
+                    htmlBoard.childNodes[pos].style.backgroundColor = 'dodgerblue';
+                    // console.log(enemy.board.board)
+                    // status.innerHTML(player.getName() + 'has missed.')
+                }
             }
+
         }
+    }
+
+    // Array to grid
+    const aGrid = (location) => {
+        console.log(location[1]);
+        console.log(location[0]);
+        let loc = -11; 
+        for(let i = 0; i <= location[1]; i++) {
+            loc+= 10;
+        }
+        for(let j = 0; j <= location[0]; j++) {
+            loc++;
+        }
+        return loc;
     }
 
     // Grid to array position
@@ -492,39 +528,43 @@ const interaction = () => {
                             }
                         }
                     });
-                    // player1.setTurn();
-                    // player2.setTurn();
+                    player1.setTurn();
+                    player2.setTurn();
+
+                    setTimeout(() =>  {
+                        if(player2.getTurn()) {
+                            boardReader('attack', player2, player, player1, e.target.id);
+                            if(!player1.board.gameOver()) {
+                                player1.board.ships.forEach(e => {
+                                    if(e.isSunk() === true) {
+                                        if(e.getSunkStatus() === false) {
+                                            e.setSunkStatus()
+                                        }
+                                    }
+                                });
+                            }
+                            else {
+                                console.log('Game Over')
+                                computer.childNodes.forEach(e => {
+                                    removeEvents(e);
+            
+                                })
+                            }
+                        }
+                        player1.setTurn();
+                        player2.setTurn();
+                    }, 1000);
+
                 }
                 else {
-                    console.log('Game Over')
+                    console.log('Game Over');
+                    player1.setTurn();
                     computer.childNodes.forEach(e => {
                         removeEvents(e);
 
                     })
                 }
             }
-            // else if(player2.getTurn()) {
-            //     boardReader('attack', player2, computer, player1, e.target.id);
-            //     removeEvents(e.target);
-            //     if(!player1.board.gameOver()) {
-            //         player1.board.ships.forEach(e => {
-            //             if(e.isSunk() === true) {
-            //                 if(e.getSunkStatus() === false) {
-            //                     e.setSunkStatus()
-            //                 }
-            //             }
-            //         });
-            //         player1.setTurn();
-            //         player2.setTurn();
-            //     }
-            //     else {
-            //         console.log('Game Over')
-            //         computer.childNodes.forEach(e => {
-            //             removeEvents(e);
-
-            //         })
-            //     }
-            // }
         }
 
         // Remove event listeners
@@ -542,7 +582,7 @@ const interaction = () => {
         });
 
         console.log(player2.board.board);
-        // console.log(player1.board.board);
+        console.log(player1.board.board);
 
     }
 
