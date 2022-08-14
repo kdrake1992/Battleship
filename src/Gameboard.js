@@ -123,7 +123,7 @@ const Gameboard = () => {
                 }
             }
         }
-        else if(board[y][x] === 'x') {
+        else if(board[y][x] === 'x' || board[y][x] === 'o') {
             return 'doubleHit'
         }
         else {

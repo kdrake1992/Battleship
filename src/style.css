@@ -31,16 +31,14 @@ button:hover {
 
 /* Fade in effect */
 #fadeIn {
-  visibility: visible;
-  opacity: 1;
-  transition: opacity 2s linear;
+  animation: fadeIn 1s;
 }
 
 /* Fade out effect */
 #fadeOut {
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s 2s, opacity 2s linear;
+  transition: visibility 0s 1s, opacity 1s linear;
 }
 
 /* Body */
@@ -172,8 +170,14 @@ body {
   margin: 0 auto;
   letter-spacing: .15em;
   animation: 
-    typing 3s steps(40,end),
-    blink-caret .5s step-end infinite;
+    typing 2s steps(40,end),
+    blink-caret .7s step-end infinite;
+}
+
+/* Fade in */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 /* Typing effect */

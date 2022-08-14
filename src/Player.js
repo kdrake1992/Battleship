@@ -60,11 +60,7 @@ const Player = (name, type) => {
         // Ai will draw a random number for the grid
         // If previous turn was a hit, will hit around.
         else if(type === 'ai') {
-            let attack = false;
-            compMove[0] = randomNumber();
-            compMove[1] = randomNumber();
-            let y =  compMove[0];
-            let x =  compMove[1];
+            let attack = 'miss';
 
             if(previousHit) {
                 y = previousY;
@@ -75,73 +71,127 @@ const Player = (name, type) => {
 
                 if(counter <= 3) {
                     if(counter === 0) {
-                        if(enemy.receiveAttack(y + 1, x) === 'hit') {
-                            compMove[0] = y + 1;
-                            previousY = y + 1;
-                            previousX = x;
-                            attack = true;
+                        if(y + 1 > 9) {
+                            counter++;
+                            attack = 'doubleHit'
                         }
                         else {
-                            compMove[0] = y + 1;
-                            counter++;
+                            let status = enemy.receiveAttack(y + 1, x);
+                            if(status === 'hit') {
+                                compMove[0] = y + 1;
+                                previousY = y + 1;
+                                previousX = x;
+                                attack = status;
+                            }
+                            else if(status === 'miss') {
+                                compMove[0] = y + 1;
+                                counter++;
+                            }
+                            else {
+                                counter++;
+                                attack = status;
+                            }
                         }
+
                     }
                     else if(counter === 1) {
-                        if(enemy.receiveAttack(y - 1, x) === 'hit') {
-                            compMove[0] = y - 1;
-                            previousY = y - 1;
-                            previousX = x;
-                            counter = 0;
-                            attack = true;
-                        }
-                        else {
-                            compMove[0] = y - 1;
+                        if(y - 1 < 0) {
                             counter++;
+                            attack = 'doubleHit'
                         }
+                        else {  
+                            let status = enemy.receiveAttack(y - 1, x);
+                            if(status === 'hit') {
+                                compMove[0] = y - 1;
+                                previousY = y - 1;
+                                previousX = x;
+                                counter = 0;
+                                attack = status;
+                            }
+                            else if(status === 'miss'){
+                                compMove[0] = y - 1;
+                                counter++;
+                            }
+                            else {
+                                counter++;
+                                attack = status;
+                            }
+                        }
+
                     }
                     else if(counter === 2) {
                         if(x + 1 > 9) {
                             counter++;
-                        }
-                        else if(enemy.receiveAttack(y,  x + 1) === 'hit') {
-                            previousY = y;
-                            compMove[1] = x + 1;
-                            previousX = x + 1;
-                            counter = 0;
-                            attack = true;
+                            attack = 'doubleHit'
                         }
                         else {
-                            counter++;
-                            compMove[1] = x + 1;
+                            let status = enemy.receiveAttack(y,  x + 1);
+                            if(status === 'hit') {
+                                previousY = y;
+                                compMove[1] = x + 1;
+                                previousX = x + 1;
+                                counter = 0;
+                                attack = status;
+                            }
+                            else if(status === 'miss') {
+                                counter++;
+                                compMove[1] = x + 1;
+                            }
+                            else {
+                                counter++;
+                                attack = status;
+                            }
                         }
+
                     }
                     else if(counter === 3) {
                         if(x - 1 < 0) {
-                            console.log(x -1)
                             previousHit = false;
                             counter = 0
-                        }
-                        else if(enemy.receiveAttack(y, x - 1) === 'hit') {
-                            previousY = y;
-                            compMove[1] = x - 1;
-                            previousX = x - 1;
-                            counter = 0;
-                            attack = true;
+                            attack = 'doubleHit'
                         }
                         else {
-                            previousHit = false;
-                            counter = 0;
-                            compMove[1] = x - 1;
-                        }  
+                            let status = enemy.receiveAttack(y, x - 1);
+                            if(status === 'hit') {
+                                previousY = y;
+                                compMove[1] = x - 1;
+                                previousX = x - 1;
+                                counter = 0;
+                                attack = status;
+                            }
+                            else if(status === 'miss') {
+                                previousHit = false;
+                                counter = 0;
+                                compMove[1] = x - 1;
+                            }
+                            else {
+                                counter = 0;
+                                previousHit = false;
+                                attack = status;
+                            }
+                        }
                     }
                 }
             }
             else if(!previousHit) {
-                if(enemy.receiveAttack(y,x) === 'hit') {
+                compMove[0] = randomNumber();
+                compMove[1] = randomNumber();
+                let y =  compMove[0];
+                let x =  compMove[1];
+
+                let status = enemy.receiveAttack(y,x);
+
+                if(status === 'hit') {
                     previousY = y;
                     previousX = x;
                     previousHit = true;
-                    attack = true;
+                    attack = status;
+                }
+                else if(status === 'miss') {
+                    attack = status;
+                }
+                else if(status === 'doubleHit') {
+                    attack = status;
                 }
 
             }

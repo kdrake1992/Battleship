@@ -48,7 +48,10 @@ const interaction = () => {
             battleStart.addEventListener('click', e => {
                 if(ready === true) {
                     fadePlacement();
-                    gameInteraction(player1, player2);
+                    setTimeout(() => {
+                        gameInteraction(player1, player2);
+                    }, 1500)
+
                 }
             })
         })
@@ -136,6 +139,9 @@ const interaction = () => {
                         if(player.board.board[i][j] !== '') {
                             htmlBoard[counter].style.backgroundColor = 'green'
                         }
+                        else {
+                            htmlBoard[counter].style.backgroundColor = 'none'       
+                        }
                     }
                     counter++;
                 }
@@ -150,41 +156,109 @@ const interaction = () => {
                 const status = document.getElementById('status')
                 if(player.attack(y, x, enemy.board) === 'hit') {
                     htmlBoard.childNodes[loc].style.backgroundColor = 'red';
-                    // status.innerHTML(player.getName() + 'has hit a ship!')
-    
+                    statusEdit(player, 'hit');
                 }
                 else {
                     htmlBoard.childNodes[loc].style.backgroundColor = 'dodgerblue';
-                    // status.innerHTML(player.getName() + 'has missed.')
+                    statusEdit(player, 'miss');
                 }
             }
             else if(player.getName() === 'Player2') {
-                const status = document.getElementById('status')
-                if(player.attack(0, 0, enemy.board) === true) {
-                    console.log('HIT')
+                let attack = player.attack(0, 0, enemy.board);
+                const hit = () => {
                     let pos = player.getCompMove();
                     pos = aGrid(pos);
                     htmlBoard.childNodes[pos].style.backgroundColor = 'red';
-                    // console.log(enemy.board.board)
-                    // status.innerHTML(player.getName() + 'has hit a ship!')
+                    statusEdit(player, 'hit');
                 }
-
-                else {
+                const miss = () => {
                     let pos = player.getCompMove();
                     pos = aGrid(pos);
                     htmlBoard.childNodes[pos].style.backgroundColor = 'dodgerblue';
-                    // console.log(enemy.board.board)
-                    // status.innerHTML(player.getName() + 'has missed.')
+                    statusEdit(player, 'miss')
+                }
+
+                const doubleHit = () => {
+                    let attack = player.attack(0, 0, enemy.board)
+                    if(attack === 'hit') {
+                        hit();
+                    }
+    
+                    else if(attack === 'miss') {
+                        miss();
+                    }
+                    else if(attack === 'doubleHit') {
+                        doubleHit();
+                    }
+                }
+                if(attack === 'hit') {
+                    hit();;
+                }
+
+                else if(attack === 'miss') {
+                    miss();
+                }
+
+                else if(attack === 'doubleHit') {
+                    doubleHit();
                 }
             }
 
         }
     }
 
+    const statusEdit = (player, type) => {
+        const mess = document.getElementById('status');
+        let currentPlayer = '';
+        if (player.getName() === 'Player1') {
+            currentPlayer = 'You'
+        }
+        else {
+            currentPlayer = 'Enemy'
+        }
+
+        if(type === 'hit') {
+            if(currentPlayer === 'You') {
+                mess.innerHTML = `<p>${currentPlayer} got'em! Good job!</p>` ;
+            }
+            else {
+                mess.innerHTML = `<p>${currentPlayer} scored a hit!</p>` ;
+            }
+
+        }
+        else if (type === 'miss') {
+            if(currentPlayer === 'You') {
+                mess.innerHTML = `<p>${currentPlayer} missed.. bummer..</p>`;
+            }
+            else {
+                mess.innerHTML = `<p>${currentPlayer} missed.. safe..</p>` ;
+            }
+
+        }
+        else if(type === 'sunk') {
+            if(currentPlayer === 'You') {
+                mess.innerHTML = `<p>${currentPlayer} sunk their ship!!</p>` ;
+
+            }
+            else {
+                mess.innerHTML = `<p>${currentPlayer} sunk your ship!</p>`
+                
+            }
+        }
+        else if(type === 'game') {
+            if(currentPlayer === 'You') {
+                mess.innerHTML = `<p>${currentPlayer} won the battle!</p>`
+            }
+            else {
+                mess.innerHTML = `<p>You lost the battle...` ;
+            }
+
+        }
+
+    }
+
     // Array to grid
     const aGrid = (location) => {
-        console.log(location[1]);
-        console.log(location[0]);
         let loc = -11; 
         for(let i = 0; i <= location[1]; i++) {
             loc+= 10;
@@ -478,33 +552,41 @@ const interaction = () => {
         const directionButton = document.getElementById('direction');
         const startButton = document.getElementById('battleStart');
         const placementBoard = document.querySelector('.boards');
+        const footer = document.querySelector('.footer');
         
         title.setAttribute('id', 'fadeOut');
         directionButton.setAttribute('id', 'fadeOut');
         startButton.setAttribute('id', 'fadeOut');
         placementBoard.setAttribute('id', 'fadeOut');
+        footer.setAttribute('id', 'fadeOut');
 
-        title.remove();
-        directionButton.remove();
-        startButton.remove();
-        placementBoard.remove()
+        setTimeout(() => {
+            title.remove();
+            directionButton.remove();
+            startButton.remove();
+            placementBoard.remove()
+            footer.remove();
+        }, 1500)
     }
 
     // Game interaction
     const gameInteraction = (player1, player2) => {
         // Add the 2 new boards and status
         const status = document.createElement('div');
-        status.setAttribute('id', 'status');
-        const currentStatus = document.createElement('p');
-        currentStatus.innerHTML = 'Let the battle begin!'
-
         let game = boardMaker('game');
 
         // Align the divs
-        status.appendChild(currentStatus);
+        body.appendChild(foot());
         const footer = document.querySelector('.footer');
         body.insertBefore(game, footer);
         body.insertBefore(status, game);
+
+        // Fade in
+        body.setAttribute('id', 'fadeIn');
+
+        // Let the games begin
+        status.setAttribute('id', 'status');
+        status.innerHTML = '<p>Let the battle begin!</p>'
 
         let player = document.querySelector('#player')
         boardReader('start', player1, player.childNodes);
@@ -518,13 +600,14 @@ const interaction = () => {
         } 
         const click = function(e) {
             if(player1.getTurn()) {
-                boardReader('attack', player1, computer, player2, e.target.id);
-                removeEvents(e.target);
                 if(!player2.board.gameOver()) {
+                    boardReader('attack', player1, computer, player2, e.target.id);
+                    removeEvents(e.target);
                     player2.board.ships.forEach(e => {
                         if(e.isSunk() === true) {
                             if(e.getSunkStatus() === false) {
                                 e.setSunkStatus()
+                                statusEdit(player1, 'sunk');
                             }
                         }
                     });
@@ -533,18 +616,19 @@ const interaction = () => {
 
                     setTimeout(() =>  {
                         if(player2.getTurn()) {
-                            boardReader('attack', player2, player, player1, e.target.id);
                             if(!player1.board.gameOver()) {
+                                boardReader('attack', player2, player, player1, e.target.id);
                                 player1.board.ships.forEach(e => {
                                     if(e.isSunk() === true) {
                                         if(e.getSunkStatus() === false) {
                                             e.setSunkStatus()
+                                            statusEdit(player2, 'sunk');
                                         }
                                     }
                                 });
                             }
                             else {
-                                console.log('Game Over')
+                                statusEdit(player2, 'game');
                                 computer.childNodes.forEach(e => {
                                     removeEvents(e);
             
@@ -553,11 +637,11 @@ const interaction = () => {
                         }
                         player1.setTurn();
                         player2.setTurn();
-                    }, 1000);
+                    }, 2500);
 
                 }
                 else {
-                    console.log('Game Over');
+                    statusEdit(player1, 'game');
                     player1.setTurn();
                     computer.childNodes.forEach(e => {
                         removeEvents(e);
@@ -581,9 +665,7 @@ const interaction = () => {
             e.addEventListener('click', click);
         });
 
-        console.log(player2.board.board);
-        console.log(player1.board.board);
-
+        console.log(player2.board.board)
     }
 
     // Create footer 
