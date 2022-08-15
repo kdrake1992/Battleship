@@ -576,12 +576,15 @@ const interaction = () => {
         let game = boardMaker('game');
 
         // Align the divs
+
         body.appendChild(foot());
-        const footer = document.querySelector('.footer');
         body.insertBefore(game, footer);
         body.insertBefore(status, game);
 
+
         // Fade in
+        console.log(footer)
+        footer.removeAttribute('id')
         body.setAttribute('id', 'fadeIn');
 
         // Let the games begin
@@ -608,6 +611,14 @@ const interaction = () => {
                             if(e.getSunkStatus() === false) {
                                 e.setSunkStatus()
                                 statusEdit(player1, 'sunk');
+                                if(player2.board.gameOver()) {
+                                    statusEdit(player1, 'game');
+                                    player1.setTurn();
+                                    computer.childNodes.forEach(e => {
+                                        removeEvents(e);
+                                    })
+                                    player2.setTurn();
+                                }
                             }
                         }
                     });
@@ -623,30 +634,22 @@ const interaction = () => {
                                         if(e.getSunkStatus() === false) {
                                             e.setSunkStatus()
                                             statusEdit(player2, 'sunk');
+                                            if(player1.board.gameOver()) {
+                                                statusEdit(player2, 'game');
+                                                computer.childNodes.forEach(e => {
+                                                    removeEvents(e);
+                                                })
+                                                player2.setTurn();
+                                            }
                                         }
                                     }
                                 });
-                            }
-                            else {
-                                statusEdit(player2, 'game');
-                                computer.childNodes.forEach(e => {
-                                    removeEvents(e);
-            
-                                })
                             }
                         }
                         player1.setTurn();
                         player2.setTurn();
                     }, 2500);
 
-                }
-                else {
-                    statusEdit(player1, 'game');
-                    player1.setTurn();
-                    computer.childNodes.forEach(e => {
-                        removeEvents(e);
-
-                    })
                 }
             }
         }
@@ -664,8 +667,6 @@ const interaction = () => {
             e.addEventListener('mouseout', mouseout);
             e.addEventListener('click', click);
         });
-
-        console.log(player2.board.board)
     }
 
     // Create footer 
